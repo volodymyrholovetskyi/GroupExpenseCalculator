@@ -1,7 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.person;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.holovetskyi.groupexpensecalculator.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.common.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

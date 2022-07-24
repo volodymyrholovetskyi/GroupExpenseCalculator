@@ -1,6 +1,6 @@
 package com.holovetskyi.groupexpensecalculator.person;
 
-import com.holovetskyi.groupexpensecalculator.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.common.BaseEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

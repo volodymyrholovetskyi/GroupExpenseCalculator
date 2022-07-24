@@ -17,8 +17,7 @@ public interface EventJpaRepository extends JpaRepository<Event, Long> {
     List<Event> findByNameStartsWithIgnoreCase(String name);
 
     @Query("SELECT e FROM Event e JOIN e.persons p " +
-            "WHERE " +
-            " lower(e.name) LIKE lower(concat('%', :name, '%')) ")
+            "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
     List<Event> findByName(@Param("name") String name);
 
 }

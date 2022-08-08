@@ -14,22 +14,22 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class EntityRepositoryImpl implements EntityRepository {
+public class EventRepositoryImpl implements EventRepository {
 
     private final EntityRepositoryDao repositoryDao;
 
     @Override
-    public Optional<Entity> save() {
+    public Optional<Event> save() {
         return null;
     }
 
     @Override
-    public List<Entity> findAll() {
+    public List<Event> findAll() {
         return null;
     }
 
     @Override
-    public Optional<Entity> findById(Long id) {
+    public Optional<Event> findById(Long id) {
         return null;
     }
 }

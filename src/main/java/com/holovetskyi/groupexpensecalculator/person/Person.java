@@ -29,7 +29,7 @@ public class Person extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties("persons")
-    private Set<Event> events = new HashSet<>();
+    private Set<EventEntity> eventEntities = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "payerId")

@@ -1,47 +1,24 @@
 package com.holovetskyi.groupexpensecalculator.event.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.holovetskyi.groupexpensecalculator.common.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.person.Person;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Set;
 
-import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.*;
-
-@Entity
-@Getter
-@Setter
-@Table(name = "event")
-@ToString(exclude = "persons")
-@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
 @NoArgsConstructor
-public class Event extends BaseEntity {
+@EqualsAndHashCode
+public class Event {
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonIgnoreProperties("events")
-    private Set<Person> persons = new HashSet<>();
-    @Enumerated(EnumType.STRING)
+    private Set<Person> persons;
+
     private CurrentStatus status;
 
-    @CreatedDate
     private LocalDateTime createAt;
 
-    @Builder
-    public Event (String name) {
-        this.name = name;
-        this.status = Optional.ofNullable(status).orElse(IN_PROGRESS);
-
-    }
-
-
-
 }
-
-

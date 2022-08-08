@@ -1,7 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.event.web;
 
 import com.holovetskyi.groupexpensecalculator.event.application.EventService;
-import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class EventController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    List<Event> getAll(@RequestParam Optional<String> name) {
+    List<EventEntity> getAll(@RequestParam Optional<String> name) {
         if (name.isPresent()) {
             return service.findByName(name.get());
         }

@@ -9,13 +9,9 @@ import java.util.List;
 
 public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
 
-    List<EventEntity> findByNameStartsWithIgnoreCase(String name) {
-        return null;
-    }
+    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
 
     @Query("SELECT e FROM EventEntity e JOIN e.persons p " +
             "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
-    List<EventEntity> findByName(@Param("name") String name) {
-        return null;
-    }
+    List<EventEntity> findByName(@Param("name") String name);
 }

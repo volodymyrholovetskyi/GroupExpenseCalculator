@@ -1,29 +1,24 @@
 package com.holovetskyi.groupexpensecalculator.event.application;
 
-import com.holovetskyi.groupexpensecalculator.event.db.EventJpaRepository;
-import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class EventService {
 
-        private final EventJpaRepository repository;
+    private final EventRepository repository;
 
-        public List<Event> getAll() {
-            return repository.findAll();
-        }
-
-        public List<Event> findByName(String name) {
-            return repository.findByNameStartsWithIgnoreCase(name);
-        }
-
-        public Optional<Event> findById(Long id) {
-            return repository.findById(id);
-        }
+//    public List<EventEntity> getAll() {
+//        return repository.findAll();
+//    }
+//
+//    public List<EventEntity> findByName(String name) {
+//        return repository.findByNameStartsWithIgnoreCase(name);
+//    }
+//
+//    public Optional<EventEntity> findById(Long id) {
+//        return repository.findById(id);
+}
 }

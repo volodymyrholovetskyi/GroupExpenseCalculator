@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.common;
+package com.holovetskyi.groupexpensecalculator.jpa;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

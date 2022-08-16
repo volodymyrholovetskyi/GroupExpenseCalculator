@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.common;
+package com.holovetskyi.groupexpensecalculator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

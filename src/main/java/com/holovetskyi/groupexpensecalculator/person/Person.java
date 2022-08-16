@@ -1,8 +1,8 @@
 package com.holovetskyi.groupexpensecalculator.person;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.holovetskyi.groupexpensecalculator.common.BaseEntity;
-import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,7 +29,7 @@ public class Person extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties("persons")
-    private Set<Event> events = new HashSet<>();
+    private Set<EventEntity> eventEntities = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "payerId")

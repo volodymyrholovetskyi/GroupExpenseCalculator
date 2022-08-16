@@ -1,6 +1,6 @@
 package com.holovetskyi.groupexpensecalculator.person;
 
-import com.holovetskyi.groupexpensecalculator.common.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,7 +23,7 @@ public class Payment extends BaseEntity {
 
     private String whatFor;
 
-    private BigDecimal howMach;
+    private BigDecimal payment;
 
     @CreatedDate
     private LocalDateTime createAt;

@@ -26,7 +26,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Optional<Event> findById(Long id) {
-        return null;
+        return repositoryDao.findById(id).map(EventEntity::toEvent);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Event save(Event event) {
-        return repositoryDao.save(event.toEventEntity().toEvent());
+        EventEntity newEvent = repositoryDao.save(event.toEventEntity());
+        return newEvent.toEvent();
     }
 }

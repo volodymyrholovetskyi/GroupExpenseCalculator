@@ -11,11 +11,13 @@ import java.util.Optional;
 
 public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
 
-    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
+//    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
 
-    @Query("SELECT e FROM EventEntity e JOIN e.persons p " +
-            "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
-    List<EventEntity> findByName(@Param("name") String name);
+//    @Query("SELECT e FROM EventEntity e JOIN e.persons p " +
+//            "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
+//    List<EventEntity> findByName(@Param("name") String name);
 
     Event save(Event event);
+
+    Optional<EventEntity> findById(Long id);
 }

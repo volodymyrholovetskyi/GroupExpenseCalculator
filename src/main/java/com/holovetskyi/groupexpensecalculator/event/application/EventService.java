@@ -2,7 +2,10 @@ package com.holovetskyi.groupexpensecalculator.event.application;
 
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.dao.impl.EventRepositoryImpl;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +16,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class EventService {
 
-    private final EventRepository repository;
+    private final EventRepositoryImpl repository;
 
     public List<Event> getAll() {
         return repository.findAll();
     }
 
-    public CreateEventDto addEvent(CreateEventDto eventDto) {
-        return repository.save(eventDto.toEvent());
+    public CreateEventDTO addEvent(CreateEventDTO eventDto) {
+        Event event = repository.save(eventDto.toEvent());
+        return event.toCreateEventDTO();
     }
 
     public List<Event> findByName(String name) {
         return repository.findByNameStartsWithIgnoreCase(name);
     }
 
-//    public Optional<EventEntity> findById(Long id) {
-//        return repository.findById(id);
-//}
+    public Optional<GetEventDTO> findById(Long id) {
+        return repository.findById(id).map(Event::toGetEventDTO);
+}
 }

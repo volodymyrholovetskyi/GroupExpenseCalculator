@@ -1,6 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity;
 
 import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
+import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.person.Person;
 import lombok.*;
@@ -9,9 +10,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
-import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.*;
+import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.IN_PROGRESS;
 
 @Entity
 @Getter
@@ -21,7 +24,6 @@ import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class EventEntity extends BaseEntity {
-
     private String name;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -33,10 +35,18 @@ public class EventEntity extends BaseEntity {
     private LocalDateTime createAt;
 
     @Builder
-    public EventEntity(String name) {
+    public EventEntity(Long id, String name) {
+        this.id = id;
         this.name = name;
         this.status = Optional.ofNullable(status).orElse(IN_PROGRESS);
 
+    }
+
+    public Event toEvent() {
+        return Event.builder()
+                .id(id)
+                .name(name)
+                .build();
     }
 }
 

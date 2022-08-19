@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.dao.EntityRepositoryDao;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,17 +17,25 @@ public class EventRepositoryImpl implements EventRepository {
     private final EntityRepositoryDao repositoryDao;
 
     @Override
-    public Optional<Event> save() {
-        return repositoryDao.save();
-    }
-
-    @Override
     public List<Event> findAll() {
-        return null;
+        return repositoryDao.findAll()
+                .stream()
+                .map(EventEntity::toEvent)
+                .toList();
     }
 
     @Override
     public Optional<Event> findById(Long id) {
         return null;
+    }
+
+    @Override
+    public List<Event> findByNameStartsWithIgnoreCase(String name) {
+        return null;
+    }
+
+    @Override
+    public Event save(Event event) {
+        return repositoryDao.save(event.toEventEntity().toEvent());
     }
 }

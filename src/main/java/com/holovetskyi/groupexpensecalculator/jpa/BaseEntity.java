@@ -18,11 +18,11 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    protected Long id;
 
-    private String uuid = UUID.randomUUID().toString();
+    protected String uuid = UUID.randomUUID().toString();
 
     @Version
-    private long version;
+    protected long version;
 
 }

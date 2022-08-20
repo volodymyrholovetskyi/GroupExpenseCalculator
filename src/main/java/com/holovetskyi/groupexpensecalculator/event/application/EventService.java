@@ -18,8 +18,11 @@ public class EventService {
 
     private final EventRepositoryImpl repository;
 
-    public List<Event> getAll() {
-        return repository.findAll();
+    public List<GetEventDTO> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(Event::toGetEventDTO)
+                .toList();
     }
 
     public CreateEventDTO addEvent(CreateEventDTO eventDto) {
@@ -27,8 +30,11 @@ public class EventService {
         return event.toCreateEventDTO();
     }
 
-    public List<Event> findByName(String name) {
-        return repository.findByNameStartsWithIgnoreCase(name);
+    public List<GetEventDTO> findByName(String name) {
+       return repository.findByNameStartsWithIgnoreCase(name)
+                .stream()
+                .map(Event::toGetEventDTO)
+                .toList();
     }
 
     public Optional<GetEventDTO> findById(Long id) {

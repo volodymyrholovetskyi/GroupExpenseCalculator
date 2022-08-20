@@ -19,5 +19,7 @@ public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
 
     Event save(Event event);
 
+    List<EventEntity> findAll();
+
     Optional<EventEntity> findById(Long id);
 }

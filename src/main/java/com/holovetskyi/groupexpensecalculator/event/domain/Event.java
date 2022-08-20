@@ -28,7 +28,7 @@ public class Event {
     }
 
     public GetEventDTO toGetEventDTO() {
-        return new GetEventDTO(id, name);
+        return new GetEventDTO(id, name, persons);
     }
 
     public CreateEventDTO toCreateEventDTO() {

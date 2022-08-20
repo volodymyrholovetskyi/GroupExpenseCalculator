@@ -1,5 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.IN_PROGRESS;
+import static java.util.Collections.*;
 
 @Entity
 @Getter
@@ -22,7 +25,7 @@ import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class EventEntity extends BaseEntity {
-    private String nameEvent;
+    private String name;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -39,15 +42,17 @@ public class EventEntity extends BaseEntity {
 
     @Builder
     public EventEntity(String name) {
-        this.nameEvent = name;
+        this.name = name;
         this.status = Optional.ofNullable(status).orElse(IN_PROGRESS);
 
     }
 
     public Event toEvent() {
-        return Event.builder()
+        return Event
+                .builder()
                 .id(id)
-                .name(nameEvent)
+                .name(name)
+                .persons(persons)
                 .build();
     }
 }

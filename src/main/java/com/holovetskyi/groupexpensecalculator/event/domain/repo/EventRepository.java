@@ -10,10 +10,11 @@ import java.util.Optional;
 
 public interface EventRepository {
 
-    public Optional<Event> save();
+    Event save(Event event);
 
     public List<Event> findAll();
 
     public Optional<Event> findById(Long id);
 
+    List<Event> findByNameStartsWithIgnoreCase(String name);
 }

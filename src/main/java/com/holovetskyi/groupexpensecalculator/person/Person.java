@@ -24,15 +24,14 @@ public class Person extends BaseEntity {
 
     private String lastName;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties("persons")
-    private Set<EventEntity> eventEntities = new HashSet<>();
+    private Set<EventEntity> events = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "payerId")
+    @OneToMany(mappedBy = "person", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Singular
     private List<Payment> payments = new ArrayList<>();
 

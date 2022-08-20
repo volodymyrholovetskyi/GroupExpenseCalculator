@@ -13,10 +13,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Group Expense Calculator</name>
 	<description>Group Expense Calculator</description>
+
 	<properties>
 		<java.version>18</java.version>
 		<lombok.version>1.18.24</lombok.version>
+		<connector.mysql>8.0.26</connector.mysql>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -29,16 +32,30 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- test -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- db -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<!-- lombok -->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

@@ -4,10 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -18,11 +15,11 @@ public abstract class BaseEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    protected Long id;
 
-    private String uuid = UUID.randomUUID().toString();
+    protected String uuid = UUID.randomUUID().toString();
 
     @Version
-    private long version;
+    protected long version;
 
 }

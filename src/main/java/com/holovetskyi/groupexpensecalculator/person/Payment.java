@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -21,9 +23,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Payment extends BaseEntity {
 
-    private String whatFor;
+    private String namePayment;
 
     private BigDecimal payment;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     @CreatedDate
     private LocalDateTime createAt;

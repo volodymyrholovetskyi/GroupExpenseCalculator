@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.web;
 import com.holovetskyi.groupexpensecalculator.event.application.EventService;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,11 +30,18 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    ResponseEntity<?> getById(@PathVariable Long id) {
         return service
                 .findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    ResponseEntity<Void> addEvent(@RequestBody CreateEventDTO eventDTO) {
+        CreateEventDTO createEventDTO = service.addEvent(eventDTO);
+        CreatedURI uri = new CreatedURI("/" + createEventDTO.id().toString());
+        return ResponseEntity.created(uri.createdEventUri()).build();
     }
 
 

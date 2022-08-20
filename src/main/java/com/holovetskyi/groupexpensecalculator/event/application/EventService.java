@@ -1,7 +1,9 @@
 package com.holovetskyi.groupexpensecalculator.event.application;
 
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.dao.impl.EventRepositoryImpl;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
 import lombok.AllArgsConstructor;
@@ -29,7 +31,7 @@ public class EventService {
     }
 
     public List<GetEventDTO> findByName(String name) {
-        return repository.findByNameStartsWithIgnoreCase(name)
+       return repository.findByNameStartsWithIgnoreCase(name)
                 .stream()
                 .map(Event::toGetEventDTO)
                 .toList();
@@ -37,5 +39,5 @@ public class EventService {
 
     public Optional<GetEventDTO> findById(Long id) {
         return repository.findById(id).map(Event::toGetEventDTO);
-    }
+}
 }

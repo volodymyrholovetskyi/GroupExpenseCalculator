@@ -18,6 +18,7 @@
 		<java.version>18</java.version>
 		<lombok.version>1.18.24</lombok.version>
 		<connector.mysql>8.0.26</connector.mysql>
+		<hibernate.validator>6.1.2.Final</hibernate.validator>
 	</properties>
 
 	<dependencies>
@@ -63,6 +64,16 @@
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- validator -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

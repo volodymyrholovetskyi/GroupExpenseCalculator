@@ -1,18 +1,19 @@
 package com.holovetskyi.groupexpensecalculator.event.web;
 
 import com.holovetskyi.groupexpensecalculator.event.application.EventService;
-import com.holovetskyi.groupexpensecalculator.event.domain.Event;
-import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public class EventController {
 
     private final EventService service;
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     @GetMapping
     List<GetEventDTO> getAll(@RequestParam Optional<String> name) {
         if (name.isPresent()) {
@@ -45,9 +46,19 @@ public class EventController {
         return ResponseEntity.created(uri.createdEventUri()).build();
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(ACCEPTED)
+    void update(@PathVariable Long id, @RequestBody UpdateEventDTO eventDTO) {
+        UpdateEventResponse response = service.updateEvent(id, eventDTO);
+        if (!response.success()) {
+            String message = String.join(", ", response.errors());
+            throw new ResponseStatusException(BAD_REQUEST, message);
+        }
+    }
 
-
-
-
-
+    @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
+    void deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+    }
 }

@@ -3,10 +3,12 @@ package com.holovetskyi.groupexpensecalculator.event.web.dto;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 public record CreateEventDTO(
         Long id,
-        @Min(value = 2, message = "The name is too short")
+
+        @Size(min = 2, message = "The name is too short")
         String name) {
 
     public Event toEvent() {

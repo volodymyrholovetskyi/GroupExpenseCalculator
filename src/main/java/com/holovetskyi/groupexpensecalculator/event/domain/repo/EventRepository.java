@@ -14,4 +14,7 @@ public interface EventRepository {
 
     Event save(Event event);
 
-}
+    void delete(Long id);
+
+
+    }

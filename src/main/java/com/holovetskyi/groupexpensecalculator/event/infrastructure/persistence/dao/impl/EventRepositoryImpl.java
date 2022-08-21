@@ -29,6 +29,11 @@ public class EventRepositoryImpl implements EventRepository {
         return repositoryDao.findById(id).map(EventEntity::toEvent);
     }
 
+
+    public Optional<EventEntity> findByIdEntity(Long id) {
+       return repositoryDao.findById(id);
+    }
+
     @Override
     public List<Event> findByNameStartsWithIgnoreCase(String name) {
         return null;
@@ -38,5 +43,10 @@ public class EventRepositoryImpl implements EventRepository {
     public Event save(Event event) {
         EventEntity newEvent = repositoryDao.save(event.toEventEntity());
         return newEvent.toEvent();
+    }
+
+    @Override
+    public void delete(Long id) {
+        repositoryDao.deleteById(id);
     }
 }

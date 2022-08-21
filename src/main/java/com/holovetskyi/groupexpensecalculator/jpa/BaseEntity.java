@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.jpa;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.UUID;

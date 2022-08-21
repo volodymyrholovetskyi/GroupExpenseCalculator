@@ -22,4 +22,6 @@ public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
     List<EventEntity> findAll();
 
     Optional<EventEntity> findById(Long id);
+
+    void deleteById(Long id);
 }

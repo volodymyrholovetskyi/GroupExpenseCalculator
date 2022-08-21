@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.
 import com.holovetskyi.groupexpensecalculator.event.domain.Currency;
 import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.person.Person;
 import lombok.*;
@@ -51,6 +52,18 @@ public class EventEntity extends BaseEntity {
         this.currency = Optional.ofNullable(currency).orElse(PLN);
         this.status = Optional.ofNullable(status).orElse(IN_PROGRESS);
 
+    }
+
+    public EventEntity updateFields(UpdateEventDTO eventDTO) {
+        if (eventDTO.name() != null) {
+            System.out.println(eventDTO.name());
+            this.name = eventDTO.name();
+        }
+
+        if (eventDTO.currency() != null){
+            this.currency = eventDTO.currency();
+        }
+        return this;
     }
 
     public Event toEvent() {

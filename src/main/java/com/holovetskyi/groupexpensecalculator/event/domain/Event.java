@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.domain;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.person.Person;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,14 +17,14 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Event {
 
-    private Long id;
-    private String name;
+    protected Long id;
+    protected String name;
 
-    private Currency currency;
-    private CurrentStatus status;
+    Currency currency;
+    CurrentStatus status;
 
-    private LocalDateTime createAt;
-    private Set<Person> persons;
+    LocalDateTime createAt;
+    Set<Person> persons;
 
 
     public EventEntity toEventEntity() {

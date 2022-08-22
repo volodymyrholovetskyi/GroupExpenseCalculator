@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.person;
+package com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity;
 
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import lombok.*;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @EntityListeners({AuditingEntityListener.class})
 @AllArgsConstructor
 @NoArgsConstructor
-public class Payment extends BaseEntity {
+public class PaymentEntity extends BaseEntity {
 
     private String namePayment;
 
@@ -29,7 +29,7 @@ public class Payment extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "person_id")
-    private Person person;
+    private PersonEntity personEntity;
 
     @CreatedDate
     private LocalDateTime createAt;

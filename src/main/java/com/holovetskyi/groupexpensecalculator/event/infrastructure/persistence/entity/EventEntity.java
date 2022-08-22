@@ -5,7 +5,7 @@ import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
-import com.holovetskyi.groupexpensecalculator.person.Person;
+import com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity.PersonEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,7 +41,7 @@ public class EventEntity extends BaseEntity {
             joinColumns = {@JoinColumn(name = "event_id")},
             inverseJoinColumns = {@JoinColumn(name = "person_id")}
     )
-    private Set<Person> persons = new HashSet<>();
+    private Set<PersonEntity> personEntities = new HashSet<>();
 
     @CreatedDate
     private LocalDateTime createAt;
@@ -73,7 +73,7 @@ public class EventEntity extends BaseEntity {
                 .name(name)
                 .currency(currency)
                 .status(status)
-                .persons(persons)
+                .personEntities(personEntities)
                 .createAt(createAt)
                 .build();
     }

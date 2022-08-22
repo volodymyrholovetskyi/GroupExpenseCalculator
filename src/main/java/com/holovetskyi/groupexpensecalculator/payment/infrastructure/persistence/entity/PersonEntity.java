@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.person;
+package com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
@@ -18,7 +18,7 @@ import java.util.Set;
 @ToString(exclude = {"events", "payments"})
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
-public class Person extends BaseEntity {
+public class PersonEntity extends BaseEntity {
 
     private String firstName;
 
@@ -33,10 +33,10 @@ public class Person extends BaseEntity {
 
     @OneToMany(mappedBy = "person", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Singular
-    private List<Payment> payments = new ArrayList<>();
+    private List<PaymentEntity> paymentEntities = new ArrayList<>();
 
     @Builder
-    public Person (String firstName, String lastName, String email) {
+    public PersonEntity(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -1,14 +1,17 @@
 package com.holovetskyi.groupexpensecalculator.event.domain.repo;
 
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EventRepository {
-    public List<Event> findAll();
+    List<Event> findAll();
 
-    public Optional<Event> findById(Long id);
+    Optional<Event> findById(Long id);
+
+    Optional<EventEntity> findByIdEventEntity(Long id);
 
     List<Event> findByNameStartsWithIgnoreCase(String name);
 

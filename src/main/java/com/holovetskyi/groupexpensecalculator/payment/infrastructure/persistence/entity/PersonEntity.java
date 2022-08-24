@@ -3,6 +3,7 @@ package com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistenc
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
+import com.holovetskyi.groupexpensecalculator.payment.domain.Person;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Table(name = "person")
 @ToString(exclude = {"events", "payments"})
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class PersonEntity extends BaseEntity {
 
     private String lastName;
 
-//    @Column(unique = true)
+    @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "persons", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -33,12 +35,29 @@ public class PersonEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "person", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @Singular
-    private List<PaymentEntity> paymentEntities = new ArrayList<>();
+    private List<PaymentEntity> payments= new ArrayList<>();
 
     @Builder
     public PersonEntity(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Person toPerson(){
+        return Person.builder()
+                .id(id)
+                .firstName(firstName)
+                .lastName(lastName)
+                .email(email)
+                .build();
+    }
+
+    public void addEvent(EventEntity event) {
+        if (event == null){
+            throw new IllegalArgumentException("Event not null");
+        }
+
+        this.events.add(event);
     }
 }

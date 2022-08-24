@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.event.web;
+package com.holovetskyi.groupexpensecalculator.event.web.response;
 
 import java.util.List;
 

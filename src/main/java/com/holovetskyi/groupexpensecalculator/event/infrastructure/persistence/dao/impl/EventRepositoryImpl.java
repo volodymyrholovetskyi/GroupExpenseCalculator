@@ -2,7 +2,7 @@ package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.
 
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
-import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.dao.EntityRepositoryDao;
+import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.dao.EntityRepositoryDAO;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
 
-    private final EntityRepositoryDao repositoryDao;
+    private final EntityRepositoryDAO repositoryDao;
 
     @Override
     public List<Event> findAll() {
@@ -30,7 +30,7 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
 
-    public Optional<EventEntity> findByIdEntity(Long id) {
+    public Optional<EventEntity> findByIdEventEntity(Long id) {
        return repositoryDao.findById(id);
     }
 

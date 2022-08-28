@@ -3,7 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.web;
 import com.holovetskyi.groupexpensecalculator.event.application.EventService;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
-import com.holovetskyi.groupexpensecalculator.event.web.dto.ResourceIdsDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.PersonIdsDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.response.UpdateEventResponse;
 import lombok.AllArgsConstructor;
@@ -45,7 +45,7 @@ public class EventController {
     @PostMapping
     ResponseEntity<Void> addEvent(@Valid @RequestBody CreateEventDTO eventDTO) {
         CreateEventDTO createEventDTO = service.addEvent(eventDTO);
-        CreatedEntityURI uri = new CreatedEntityURI("/" + createEventDTO.id().toString());
+        CreatedEventURI uri = new CreatedEventURI("/" + createEventDTO.id().toString());
         return ResponseEntity.created(uri.createdEventUri()).build();
     }
 
@@ -62,8 +62,8 @@ public class EventController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addPersonToEvent(@PathVariable Long id, @RequestBody ResourceIdsDTO persons) {
-        UpdateEventResponse response = service.updateEventPerson(id, persons);
+    public void updateEventWithPerson(@PathVariable Long id, @RequestBody PersonIdsDTO persons) {
+        UpdateEventResponse response = service.updateEventWithPerson(id, persons);
 
         if (!response.success()) {
             String message = String.join(", ", response.errors());

@@ -15,11 +15,14 @@ public interface EntityRepositoryDAO extends JpaRepository<EventEntity, Long> {
 //            "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
 //    List<EventEntity> findByName(@Param("name") String name);
 
-    Event save(Event event);
+    EventEntity save(EventEntity event);
 
     List<EventEntity> findAll();
 
     Optional<EventEntity> findById(Long id);
 
     void deleteById(Long id);
+
+
+    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
 }

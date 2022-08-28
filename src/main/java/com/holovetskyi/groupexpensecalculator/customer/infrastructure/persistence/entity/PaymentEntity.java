@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity;
+package com.holovetskyi.groupexpensecalculator.customer.infrastructure.persistence.entity;
 
 import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
 import lombok.*;
@@ -26,8 +26,7 @@ public class PaymentEntity extends BaseEntity {
     private BigDecimal payment;
 
     @ManyToOne
-    @JoinColumn(name = "person_id")
-    private PersonEntity person;
+    private CustomerEntity customer;
 
     @CreatedDate
     private LocalDateTime createAt;

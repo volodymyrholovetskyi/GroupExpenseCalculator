@@ -1,6 +1,6 @@
-package com.holovetskyi.groupexpensecalculator.payment.domain;
+package com.holovetskyi.groupexpensecalculator.customer.domain;
 
-import com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity.PersonEntity;
+import com.holovetskyi.groupexpensecalculator.customer.infrastructure.persistence.entity.CustomerEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ public class Payment {
 
     private BigDecimal payment;
 
-    private PersonEntity personEntity;
+    private CustomerEntity customerEntity;
 
     private LocalDateTime createAt;
 

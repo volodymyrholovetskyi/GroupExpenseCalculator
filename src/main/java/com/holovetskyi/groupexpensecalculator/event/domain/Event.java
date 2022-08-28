@@ -3,14 +3,15 @@ package com.holovetskyi.groupexpensecalculator.event.domain;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
-import com.holovetskyi.groupexpensecalculator.payment.domain.Person;
-import com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity.PersonEntity;
+import com.holovetskyi.groupexpensecalculator.customer.domain.Customer;
+import com.holovetskyi.groupexpensecalculator.customer.web.dto.GetCustomerDTO;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 @ToString
@@ -23,8 +24,7 @@ public class Event {
     protected Currency currency;
     protected CurrentStatus status;
     protected LocalDateTime createAt;
-    protected Set<PersonEntity> persons;
-
+    protected Set<Customer> customers;
 
     public EventEntity toEventEntity() {
         return EventEntity
@@ -35,11 +35,17 @@ public class Event {
     }
 
     public GetEventDTO toGetEventDTO() {
-        return new GetEventDTO(id, name, currency, status, createAt, persons);
+        return new GetEventDTO(id, name, currency, status, createAt, toCustomerSet());
     }
 
     public CreateEventDTO toCreateEventDTO() {
         return new CreateEventDTO(id, name);
     }
 
+    private Set<GetCustomerDTO> toCustomerSet(){
+        return customers
+                .stream()
+                .map(Customer::toGetCustomerDTO)
+                .collect(Collectors.toSet());
+    }
 }

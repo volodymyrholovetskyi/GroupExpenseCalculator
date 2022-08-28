@@ -14,11 +14,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
 
-    private final EntityRepositoryDAO repositoryDao;
+    private final EntityRepositoryDAO repositoryDAO;
 
     @Override
     public List<Event> findAll() {
-        return repositoryDao.findAll()
+        return repositoryDAO.findAll()
                 .stream()
                 .map(EventEntity::toEvent)
                 .toList();
@@ -26,27 +26,30 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Optional<Event> findById(Long id) {
-        return repositoryDao.findById(id).map(EventEntity::toEvent);
+        return repositoryDAO.findById(id).map(EventEntity::toEvent);
     }
 
 
     public Optional<EventEntity> findByIdEventEntity(Long id) {
-       return repositoryDao.findById(id);
+       return repositoryDAO.findById(id);
     }
 
     @Override
     public List<Event> findByNameStartsWithIgnoreCase(String name) {
-        return null;
-    }
+       return repositoryDAO.findByNameStartsWithIgnoreCase(name)
+                .stream()
+                .map(EventEntity::toEvent)
+                .toList();
+            }
 
     @Override
     public Event save(Event event) {
-        EventEntity newEvent = repositoryDao.save(event.toEventEntity());
+        EventEntity newEvent = repositoryDAO.save(event.toEventEntity());
         return newEvent.toEvent();
     }
 
     @Override
     public void delete(Long id) {
-        repositoryDao.deleteById(id);
+        repositoryDAO.deleteById(id);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @AllArgsConstructor
-public class CreatedEntityURI {
+public class CreatedEventURI {
 
     private final String path;
 

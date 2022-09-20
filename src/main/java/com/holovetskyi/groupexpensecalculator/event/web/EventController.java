@@ -3,7 +3,7 @@ package com.holovetskyi.groupexpensecalculator.event.web;
 import com.holovetskyi.groupexpensecalculator.event.application.EventService;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
-import com.holovetskyi.groupexpensecalculator.event.web.dto.PersonIdsDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.CustomerIdsDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.response.UpdateEventResponse;
 import lombok.AllArgsConstructor;
@@ -62,8 +62,8 @@ public class EventController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateEventWithPerson(@PathVariable Long id, @RequestBody PersonIdsDTO persons) {
-        UpdateEventResponse response = service.updateEventWithPerson(id, persons);
+    public void updateEventWithCustomer(@PathVariable Long id, @RequestBody CustomerIdsDTO customerIdsDto) {
+        UpdateEventResponse response = service.updateEventWithPerson(id, customerIdsDto);
 
         if (!response.success()) {
             String message = String.join(", ", response.errors());

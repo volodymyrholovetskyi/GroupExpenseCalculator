@@ -5,9 +5,9 @@ import com.holovetskyi.groupexpensecalculator.event.domain.Currency;
 import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
-import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
-import com.holovetskyi.groupexpensecalculator.customer.domain.Customer;
-import com.holovetskyi.groupexpensecalculator.customer.infrastructure.persistence.entity.CustomerEntity;
+import com.holovetskyi.groupexpensecalculator.config.jpa.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
+import com.holovetskyi.groupexpensecalculator.participant.infrastructure.persistence.entity.ParticipantEntity;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -28,7 +28,7 @@ import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.
 @Getter
 @Setter
 @Table(name = "event")
-@ToString(exclude = "customers")
+@ToString(exclude = "participants")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class EventEntity extends BaseEntity {
@@ -43,12 +43,12 @@ public class EventEntity extends BaseEntity {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
-            name = "event_customer",
+            name = "event_participant",
             joinColumns = {@JoinColumn(name = "event_id")},
-            inverseJoinColumns = {@JoinColumn(name = "customer_id")}
+            inverseJoinColumns = {@JoinColumn(name = "participant_id")}
     )
     @JsonIgnoreProperties("events")
-    private Set<CustomerEntity> customers = new HashSet<>();
+    private Set<ParticipantEntity> participants = new HashSet<>();
     @CreatedDate
     private LocalDateTime createAt;
 
@@ -80,22 +80,22 @@ public class EventEntity extends BaseEntity {
                 .name(name)
                 .currency(currency)
                 .status(status)
-                .customers(toCustomerSet())
+                .participants(toParticipantSet())
                 .createAt(createAt)
                 .build();
     }
 
-    public void addCustomer(Set<CustomerEntity> customers) {
-        if (customers == null){
-            throw new IllegalArgumentException("Person not null");
+    public void addParticipant(Set<ParticipantEntity> participants) {
+        if (participants == null){
+            throw new IllegalArgumentException("Participant not null");
         }
-        this.customers = customers;
+        this.participants = participants;
     }
 
-   Set<Customer> toCustomerSet(){
-        return customers
+   Set<Participant> toParticipantSet(){
+        return participants
                 .stream()
-                .map(CustomerEntity::toCustomer)
+                .map(ParticipantEntity::toParticipant)
                 .collect(Collectors.toSet());
    }
 }

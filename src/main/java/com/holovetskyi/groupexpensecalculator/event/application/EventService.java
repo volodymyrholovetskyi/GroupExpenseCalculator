@@ -4,11 +4,11 @@ import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.domain.repo.EventRepository;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
-import com.holovetskyi.groupexpensecalculator.event.web.dto.PersonIdsDTO;
+import com.holovetskyi.groupexpensecalculator.event.web.dto.CustomerIdsDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.response.UpdateEventResponse;
-import com.holovetskyi.groupexpensecalculator.customer.domain.repo.CustomerRepository;
-import com.holovetskyi.groupexpensecalculator.customer.infrastructure.persistence.entity.CustomerEntity;
+import com.holovetskyi.groupexpensecalculator.participant.domain.repo.ParticipantRepository;
+import com.holovetskyi.groupexpensecalculator.participant.infrastructure.persistence.entity.ParticipantEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class EventService {
 
     private final EventRepository repository;
-    private final CustomerRepository customerRepository;
+    private final ParticipantRepository participantRepository;
 
     public List<GetEventDTO> getAll() {
         return repository.findAll()
@@ -66,23 +66,23 @@ public class EventService {
     }
 
     @Transactional
-    public UpdateEventResponse updateEventWithPerson(Long id, PersonIdsDTO idsDTO) {
+    public UpdateEventResponse updateEventWithPerson(Long id, CustomerIdsDTO idsDTO) {
         return repository
                 .findByIdEventEntity(id)
                 .map(event -> {
-                    Set<CustomerEntity> personEntities = fetchPersonEntityByIds(idsDTO.ids());
-                    event.addCustomer(personEntities);
+                    Set<ParticipantEntity> personEntities = fetchCustomerEntityByIds(idsDTO.customerIds());
+                    event.addParticipant(personEntities);
                     return UpdateEventResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateEventResponse(false,
                         Collections.singletonList("Event not found with id: " + id)));
     }
 
-    private Set<CustomerEntity> fetchPersonEntityByIds(Set<Long> persons) {
-        return persons.stream()
-                .map(personId -> customerRepository
-                        .findByIdPersonEntity(personId)
-                        .orElseThrow(() -> new IllegalArgumentException("Unable to find author with id: " + personId))
+    private Set<ParticipantEntity> fetchCustomerEntityByIds(Set<Long> customers) {
+        return customers.stream()
+                .map(customerId -> participantRepository
+                        .findByIdParticipantEntity(customerId)
+                        .orElseThrow(() -> new IllegalArgumentException("Unable to find customer with id: " + customerId))
                 ).collect(Collectors.toSet());
     }
 }

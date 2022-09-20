@@ -3,8 +3,8 @@ package com.holovetskyi.groupexpensecalculator.event.domain;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
-import com.holovetskyi.groupexpensecalculator.customer.domain.Customer;
-import com.holovetskyi.groupexpensecalculator.customer.web.dto.GetCustomerDTO;
+import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
+import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetParticipantDTO;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -24,7 +24,7 @@ public class Event {
     protected Currency currency;
     protected CurrentStatus status;
     protected LocalDateTime createAt;
-    protected Set<Customer> customers;
+    protected Set<Participant> participants;
 
     public EventEntity toEventEntity() {
         return EventEntity
@@ -42,10 +42,10 @@ public class Event {
         return new CreateEventDTO(id, name);
     }
 
-    private Set<GetCustomerDTO> toCustomerSet(){
-        return customers
+    private Set<GetParticipantDTO> toCustomerSet(){
+        return participants
                 .stream()
-                .map(Customer::toGetCustomerDTO)
+                .map(Participant::toParticipantDTO)
                 .collect(Collectors.toSet());
     }
 }

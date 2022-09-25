@@ -1,12 +1,16 @@
 package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.holovetskyi.groupexpensecalculator.event.domain.Currency;
 import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
-import com.holovetskyi.groupexpensecalculator.jpa.BaseEntity;
-import com.holovetskyi.groupexpensecalculator.payment.infrastructure.persistence.entity.PersonEntity;
+import com.holovetskyi.groupexpensecalculator.config.jpa.BaseEntity;
+import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
+import com.holovetskyi.groupexpensecalculator.participant.infrastructure.persistence.entity.ParticipantEntity;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.holovetskyi.groupexpensecalculator.event.domain.Currency.*;
 import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.IN_PROGRESS;
@@ -23,12 +28,12 @@ import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.
 @Getter
 @Setter
 @Table(name = "event")
-@ToString(exclude = "persons")
+@ToString(exclude = "participants")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class EventEntity extends BaseEntity {
-    private String name;
 
+    private String name;
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
@@ -36,15 +41,17 @@ public class EventEntity extends BaseEntity {
     private CurrentStatus status;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
-            name = "event_person",
+            name = "event_participant",
             joinColumns = {@JoinColumn(name = "event_id")},
-            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+            inverseJoinColumns = {@JoinColumn(name = "participant_id")}
     )
-    private Set<PersonEntity> personEntities = new HashSet<>();
-
+    @JsonIgnoreProperties("events")
+    private Set<ParticipantEntity> participants = new HashSet<>();
     @CreatedDate
     private LocalDateTime createAt;
+
 
     @Builder
     public EventEntity(String name, Currency currency, CurrentStatus status) {
@@ -73,10 +80,24 @@ public class EventEntity extends BaseEntity {
                 .name(name)
                 .currency(currency)
                 .status(status)
-                .personEntities(personEntities)
+                .participants(toParticipantSet())
                 .createAt(createAt)
                 .build();
     }
+
+    public void addParticipant(Set<ParticipantEntity> participants) {
+        if (participants == null){
+            throw new IllegalArgumentException("Participant not null");
+        }
+        this.participants = participants;
+    }
+
+   Set<Participant> toParticipantSet(){
+        return participants
+                .stream()
+                .map(ParticipantEntity::toParticipant)
+                .collect(Collectors.toSet());
+   }
 }
 
 

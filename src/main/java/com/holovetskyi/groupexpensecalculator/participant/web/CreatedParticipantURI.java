@@ -1,4 +1,4 @@
-package com.holovetskyi.groupexpensecalculator.event.web;
+package com.holovetskyi.groupexpensecalculator.participant.web;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -6,11 +6,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @AllArgsConstructor
-public class CreatedURI {
-
+public class CreatedParticipantURI {
     private final String path;
-
-    public URI createdEventUri() {
+    public URI createdParticipantUri() {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
                 .path(path)

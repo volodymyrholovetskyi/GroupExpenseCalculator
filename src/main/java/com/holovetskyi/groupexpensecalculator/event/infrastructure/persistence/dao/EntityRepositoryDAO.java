@@ -3,13 +3,11 @@ package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
+public interface EntityRepositoryDAO extends JpaRepository<EventEntity, Long> {
 
 //    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
 
@@ -17,11 +15,14 @@ public interface EntityRepositoryDao extends JpaRepository<EventEntity, Long> {
 //            "WHERE lower(e.name) LIKE lower(concat('%', :name, '%')) ")
 //    List<EventEntity> findByName(@Param("name") String name);
 
-    Event save(Event event);
+    EventEntity save(EventEntity event);
 
     List<EventEntity> findAll();
 
     Optional<EventEntity> findById(Long id);
 
     void deleteById(Long id);
+
+
+    List<EventEntity> findByNameStartsWithIgnoreCase(String name);
 }

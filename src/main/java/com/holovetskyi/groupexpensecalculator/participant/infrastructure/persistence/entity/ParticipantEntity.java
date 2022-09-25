@@ -2,7 +2,7 @@ package com.holovetskyi.groupexpensecalculator.participant.infrastructure.persis
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
-import com.holovetskyi.groupexpensecalculator.participant.domain.Payment;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.UpdateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.config.jpa.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
@@ -21,7 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "participant")
-@ToString(exclude = {"events", "payments"})
+@ToString(exclude = {"events"})
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class ParticipantEntity extends BaseEntity {
@@ -32,16 +32,12 @@ public class ParticipantEntity extends BaseEntity {
 
 //    @Column(unique = true)
     private String email;
+    @Embedded
+    private Payment payment;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties("participant")
     private Set<EventEntity> events = new HashSet<>();
-
-    @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "participant_id")
-    @Fetch(FetchMode.SUBSELECT)
-    @Singular
-    private List<PaymentEntity> payments= new ArrayList<>();
 
     @Builder
     public ParticipantEntity(String firstName, String lastName, String email) {
@@ -56,14 +52,13 @@ public class ParticipantEntity extends BaseEntity {
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
-                .payment(toPayment())
+                .payment(payment)
                 .build();
     }
 
     public ParticipantEntity updateFields(UpdateParticipantDTO participantDTO) {
 
         if (participantDTO.firstName() != null) {
-            System.out.println(participantDTO.firstName());
             this.firstName = participantDTO.firstName();
         }
 
@@ -77,12 +72,6 @@ public class ParticipantEntity extends BaseEntity {
         return this;
     }
 
-    private List<Payment> toPayment() {
-        return payments
-                .stream()
-                .map(PaymentEntity::toPayment)
-                .toList();
-    }
 
     public void addEvent(EventEntity event) {
         if (event == null){
@@ -90,12 +79,5 @@ public class ParticipantEntity extends BaseEntity {
         }
 
         this.events.add(event);
-    }
-
-    public void addPayment(Payment payment) {
-        if (payment == null){
-            throw new IllegalArgumentException("Participant not null");
-        }
-        payments.add(payment.toPaymentEntity());
     }
 }

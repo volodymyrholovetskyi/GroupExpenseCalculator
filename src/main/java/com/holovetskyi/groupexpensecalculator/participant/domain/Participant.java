@@ -1,13 +1,12 @@
 package com.holovetskyi.groupexpensecalculator.participant.domain;
 
-import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetPaymentDTO;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.participant.infrastructure.persistence.entity.ParticipantEntity;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetParticipantDTO;
 import lombok.Builder;
 
-import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -22,8 +21,7 @@ public class Participant {
 
     private Set<Event> events;
 
-    private List<Payment> payment;
-
+    private Payment payment;
     public ParticipantEntity toParticipantEntity(){
         return ParticipantEntity
                 .builder()
@@ -34,15 +32,9 @@ public class Participant {
     }
 
     public GetParticipantDTO toParticipantDTO(){
-        return new GetParticipantDTO(firstName, lastName, email, toPaymentsDTO());
+        return new GetParticipantDTO(firstName, lastName, email, payment);
     }
 
-    public List<GetPaymentDTO> toPaymentsDTO(){
-        return payment
-                .stream()
-                .map(Payment::toGetPaymentDTO)
-                .toList();
-    }
 
     public CreateParticipantDTO toCreateParticipantDTO() {
         return new CreateParticipantDTO(id, firstName, lastName, email);

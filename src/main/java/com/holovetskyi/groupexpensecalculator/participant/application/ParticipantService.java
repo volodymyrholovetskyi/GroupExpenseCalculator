@@ -1,11 +1,9 @@
 package com.holovetskyi.groupexpensecalculator.participant.application;
 
 import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
-import com.holovetskyi.groupexpensecalculator.participant.domain.Payment;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
 import com.holovetskyi.groupexpensecalculator.participant.domain.repo.ParticipantRepository;
-import com.holovetskyi.groupexpensecalculator.participant.domain.repo.PaymentRepository;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreateParticipantDTO;
-import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreatePaymentDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.UpdateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.response.UpdateParticipantResponse;

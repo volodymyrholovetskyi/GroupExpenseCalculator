@@ -2,7 +2,6 @@ package com.holovetskyi.groupexpensecalculator.participant.web;
 
 import com.holovetskyi.groupexpensecalculator.participant.application.ParticipantService;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreateParticipantDTO;
-import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreatePaymentDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.UpdateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.response.UpdateParticipantResponse;

@@ -1,7 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.participant.application;
 
 import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
-import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Money;
 import com.holovetskyi.groupexpensecalculator.participant.domain.repo.ParticipantRepository;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.GetParticipantDTO;
@@ -19,7 +19,6 @@ import java.util.List;
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
-    private final PaymentRepository paymentRepository;
 
     public List<GetParticipantDTO> getAll() {
         return participantRepository.findAll()
@@ -39,19 +38,6 @@ public class ParticipantService {
                 .findByIdParticipantEntity(id)
                 .map(participant -> {
                     participant.updateFields(participantDTO);
-                    return UpdateParticipantResponse.SUCCESS;
-                })
-                .orElseGet(() -> new UpdateParticipantResponse(false,
-                        Collections.singletonList("Participant not found with id: " + id)));
-    }
-
-    @Transactional
-    public UpdateParticipantResponse addPaymentToParticipant(Long id, CreatePaymentDTO paymentDTO) {
-        return participantRepository.findByIdParticipantEntity(id)
-                .map(participantEntity -> {
-                    Payment payment = paymentDTO.toPayment();
-                    paymentRepository.save(payment);
-                    participantEntity.addPayment(payment);
                     return UpdateParticipantResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateParticipantResponse(false,

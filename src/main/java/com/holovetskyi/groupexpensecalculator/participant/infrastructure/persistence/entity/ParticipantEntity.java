@@ -2,19 +2,15 @@ package com.holovetskyi.groupexpensecalculator.participant.infrastructure.persis
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.holovetskyi.groupexpensecalculator.participant.domain.Participant;
-import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Money;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.UpdateParticipantDTO;
 import com.holovetskyi.groupexpensecalculator.config.jpa.BaseEntity;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,7 +29,7 @@ public class ParticipantEntity extends BaseEntity {
 //    @Column(unique = true)
     private String email;
     @Embedded
-    private Payment payment;
+    private Money money;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnoreProperties("participant")
@@ -52,7 +48,7 @@ public class ParticipantEntity extends BaseEntity {
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
-                .payment(payment)
+                .money(money)
                 .build();
     }
 

@@ -35,17 +35,6 @@ public class ParticipantController {
         return ResponseEntity.created(uri.createdParticipantUri()).build();
     }
 
-    @PutMapping(value = "/{id}")
-    @ResponseStatus(ACCEPTED)
-    public void addPaymentToParticipant(@PathVariable Long id, @RequestBody CreatePaymentDTO createPaymentDTO) {
-        UpdateParticipantResponse response = service.addPaymentToParticipant(id, createPaymentDTO);
-
-        if (!response.success()) {
-            String message = String.join(", ", response.errors());
-            throw new ResponseStatusException(BAD_REQUEST, message);
-        }
-    }
-
     @PatchMapping("/{id}")
     @ResponseStatus(ACCEPTED)
     void update(@PathVariable Long id, @RequestBody UpdateParticipantDTO participantDTO) {

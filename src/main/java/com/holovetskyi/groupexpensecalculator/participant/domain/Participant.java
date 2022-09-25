@@ -1,6 +1,6 @@
 package com.holovetskyi.groupexpensecalculator.participant.domain;
 
-import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Payment;
+import com.holovetskyi.groupexpensecalculator.participant.domain.value_object.Money;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.participant.infrastructure.persistence.entity.ParticipantEntity;
 import com.holovetskyi.groupexpensecalculator.participant.web.dto.CreateParticipantDTO;
@@ -21,7 +21,7 @@ public class Participant {
 
     private Set<Event> events;
 
-    private Payment payment;
+    private Money money;
     public ParticipantEntity toParticipantEntity(){
         return ParticipantEntity
                 .builder()
@@ -32,7 +32,7 @@ public class Participant {
     }
 
     public GetParticipantDTO toParticipantDTO(){
-        return new GetParticipantDTO(firstName, lastName, email, payment);
+        return new GetParticipantDTO(firstName, lastName, email, money);
     }
 
 

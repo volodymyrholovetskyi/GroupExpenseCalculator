@@ -1,5 +1,6 @@
 package com.holovetskyi.groupexpensecalculator.event.domain;
 
+import com.holovetskyi.groupexpensecalculator.event.domain.type.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity.EventEntity;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.CreateEventDTO;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.GetEventDTO;
@@ -21,7 +22,6 @@ public class Event {
     protected Long id;
 
     protected String name;
-    protected Currency currency;
     protected CurrentStatus status;
     protected LocalDateTime createAt;
     protected Set<Participant> participants;
@@ -30,12 +30,11 @@ public class Event {
         return EventEntity
                 .builder()
                 .name(name)
-                .currency(currency)
                 .build();
     }
 
     public GetEventDTO toGetEventDTO() {
-        return new GetEventDTO(id, name, currency, status, createAt, toCustomerSet());
+        return new GetEventDTO(id, name, status, createAt, toCustomerSet());
     }
 
     public CreateEventDTO toCreateEventDTO() {

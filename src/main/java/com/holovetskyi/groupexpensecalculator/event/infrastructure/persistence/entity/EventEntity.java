@@ -1,8 +1,7 @@
 package com.holovetskyi.groupexpensecalculator.event.infrastructure.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.holovetskyi.groupexpensecalculator.event.domain.Currency;
-import com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus;
+import com.holovetskyi.groupexpensecalculator.event.domain.type.CurrentStatus;
 import com.holovetskyi.groupexpensecalculator.event.domain.Event;
 import com.holovetskyi.groupexpensecalculator.event.web.dto.UpdateEventDTO;
 import com.holovetskyi.groupexpensecalculator.config.jpa.BaseEntity;
@@ -21,8 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.holovetskyi.groupexpensecalculator.event.domain.Currency.*;
-import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.IN_PROGRESS;
+import static com.holovetskyi.groupexpensecalculator.event.domain.type.CurrentStatus.IN_PROGRESS;
 
 @Entity
 @Getter
@@ -34,9 +32,6 @@ import static com.holovetskyi.groupexpensecalculator.event.domain.CurrentStatus.
 public class EventEntity extends BaseEntity {
 
     private String name;
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
-
     @Enumerated(EnumType.STRING)
     private CurrentStatus status;
 
@@ -54,9 +49,8 @@ public class EventEntity extends BaseEntity {
 
 
     @Builder
-    public EventEntity(String name, Currency currency, CurrentStatus status) {
+    public EventEntity(String name, CurrentStatus status) {
         this.name = name;
-        this.currency = Optional.ofNullable(currency).orElse(PLN);
         this.status = Optional.ofNullable(status).orElse(IN_PROGRESS);
 
     }
@@ -66,10 +60,6 @@ public class EventEntity extends BaseEntity {
             System.out.println(eventDTO.name());
             this.name = eventDTO.name();
         }
-
-        if (eventDTO.currency() != null){
-            this.currency = eventDTO.currency();
-        }
         return this;
     }
 
@@ -78,7 +68,6 @@ public class EventEntity extends BaseEntity {
                 .builder()
                 .id(id)
                 .name(name)
-                .currency(currency)
                 .status(status)
                 .participants(toParticipantSet())
                 .createAt(createAt)
